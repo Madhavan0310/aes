@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>IS</title>
+    </head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+<body>
+<div>
+    <div class="container">
+        <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="width:50rem; height:35rem">
+            <div class="card-body">
+                <h3 class="card-title">AES KEY GENERATION</h3>
+                <b>INPUT KEY</b>
+                <div class="form-floating">
+                    <textarea class="form-control" id="myText"></textarea>
+                    <label for="floatingTextarea">enter the input</label>
+                  </div>
+                  <br>
+                  <button type="button" onclick="myFunction()" class="btn btn-secondary">Submit</button>
+                  <br><br>
+                  <div class="row">
+                    <div class="col">
+                        <b>Round 1</b>
+                        <p id="demo0"></p>
+                    </div>
+                    <div class="col">
+                        <b>Round 2</b>
+                        <p id="demo1"></p>
+                    </div>
+                    <div class="col">
+                        <b>Round 3</b>
+                        <p id="demo2"></p>
+                    </div>
+                    <div class="col">
+                        <b>Round 4</b>
+                        <p id="demo3"></p>
+                    </div>
+                    <div class="col">
+                        <b>Round 5</b>
+                        <p id="demo4"></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <b>Round 6</b>
+                        <p id="demo5"></p>
+                    </div>
+                    <div class="col">
+                        <b>Round 7</b>
+                        <p id="demo6"></p>
+                    </div>
+                    <div class="col">
+                        <b>Round 8</b>
+                        <p id="demo7"></p>
+                    </div>
+                    <div class="col">
+                        <b>Round 9</b>
+                        <p id="demo8"></p>
+                    </div>
+                    <div class="col">
+                        <b>Round 10</b>
+                        <p id="demo9"></p>
+                    </div>
+                  </div>
+                </div>
+        </div>
+    </div>
+</div>
+<script>
+var sub=[["63","7c","77","7b","f2","6b","6f","c5","30","01","67","2b","fe","d7","ab","76"],
+         ["ca","82","c9","7d","fa","59","47","f0","ad","d4","a2","af","9c","a4","72","c0"],
+         ["b7","fd","93","26","36","3f","f7","cc","34","a5","e5","f1","71","d8","31","15"],
+         ["04","c7","23","c3","18","96","05","9a","07","12","80","e2","eb","27","b2","75"],
+         ["09","83","2c","1a","1b","6e","5a","a0","52","3b","d6","b3","29","e3","2f","84"],
+         ["53","d1","00","ed","20","fc","b1","5b","6a","cb","be","39","4a","4c","58","cf"],
+         ["d0","ef","aa","fd","43","4d","33","85","45","f9","02","7f","50","3c","9f","a8"],
+         ["51","a3","40","8f","92","9d","38","f5","bc","b6","da","21","10","ff","f3","d2"],
+         ["cd","0c","13","ec","5f","97","44","17","c4","a7","7e","3d","64","5d","19","73"],
+         ["60","81","4f","dc","22","2a","90","88","46","ee","b8","14","de","5e","0b","db"],
+         ["e0","32","3a","0a","49","06","24","5c","c2","d3","ac","62","91","95","e4","79"],
+         ["e7","c8","37","6d","8d","d5","4e","a9","6c","56","f4","ea","65","7a","ae","08"],
+         ["ba","78","25","2e","1c","a6","b4","c6","e8","dd","74","1f","4b","bd","8b","8a"],
+         ["70","3e","b5","66","48","03","f6","0e","61","35","57","b9","86","c1","1d","9e"],
+         ["e1","f8","98","11","69","d9","8e","94","9b","1e","87","e9","ce","55","28","df"],
+         ["8c","a1","89","0d","bf","e6","42","68","41","99","2d","0f","b0","54","bb","16"]
+        ];
+function myFunction() {
+  var h=document.getElementById("myText").value.split(",") ;
+  var h1=h.slice(0,4);
+  var h2=h.slice(4,8);
+  var h3=h.slice(8,12);
+  var h4=h.slice(12,16);
+  var x = new Array(44);
+  var final=new Array(4);
+  var rcon=["01","02","04","08","10","20","40","80","1b","36"]
+for (var i = 0; i < x.length; i++) {
+  x[i] = new Array(4);
+}
+for (var i = 0; i < final.length; i++) {
+  x[i] = new Array(44);
+}
+console.log(final)
+var c=0;
+for (var i=0;i<4;i++)
+{
+    for (var j=0;j<4;j++)
+    {
+        x[j][i]=parseInt(h[c],16);
+        c=c+1;
+    }
+}
+c=0
+for (var j=4;j<44;j++)
+{
+    if(j%4==0)
+    {
+        var g1=x[j-1][0];
+        for (var i=0;i<3;i++)
+        {
+            console.log(i);
+            console.log(x[j-1][i+1]);
+            
+            x[j][i]=x[j-1][i+1];
+        }
+        x[j][3]=g1;
+        console.log(g1)
+        console.log(x)
+        for(var i=0;i<4;i++)
+        {
+            var g=x[j][i].toString(16);
+            
+            console.log(g);
+            if(g.length<2)
+            {
+                console.log("hi");
+                console.log(g.length)
+                x[j][i]=parseInt(sub[0][parseInt(g[0],16)],16);
+            }
+            else{
+                console.log(g[1]);
+                console.log(g.length);
+                x[j][i]=parseInt(sub[parseInt(g[0],16)][parseInt(g[1],16)],16);
+            }
+             x[j][i]=x[j-4][i]^x[j][i];
+        }
+
+        x[j][0]=x[j][0]^parseInt(rcon[c],16);
+        c+=1;
+        for( var i=0;i<4;i++)
+        {
+            console.log(x[j][i].toString(16));
+        }
+    }
+    else
+    {
+        for(var i=0;i<4;i++)
+        {
+            x[j][i]=x[j-1][i]^x[j-4][i];
+            
+        }
+    }
+}
+var fg=0
+var text="";
+var text1="";
+var text2="";
+var text3="";
+var text4="";
+var z = 0;
+for(var j=0;j<44;j++)
+{if(j%4==0)
+    {
+        text+="<br>round "+ fg.toString()+"<br>";
+        fg+=1;
+        text1="";
+        text2="";
+        text3="";
+        text4="";
+    }
+   
+    
+    for(var i=0;i<4;i++)
+    {
+
+        if(i==0)
+        {
+            text1+=x[j][i].toString(16)+" ";
+        }
+        else if(i==1)
+        {
+            text2+=x[j][i].toString(16)+" ";
+        }
+        else if(i==2)
+        {
+            text3+=x[j][i].toString(16)+" ";
+        }
+        else
+        {
+            text4+=x[j][i].toString(16)+" ";
+        }
+
+    }
+    if(j%4==3)
+    {
+        text = text1+"<br>"+text2+"<br>"+text3+"<br>"+text4;
+        document.getElementById("demo"+z).innerHTML=text;
+        z = z+1;
+    }
+    
+}
+
+}
+</script>
+<style>
+    .card{
+        border:none;
+    }
+    .container{
+        margin-top: 150px;
+        margin-left:200px;
+    }
+    body{
+        background-color:rgb(255, 205, 145);
+    }
+    .btn-secondary{
+        background-color: rgb(255, 199, 130);
+        font-weight: 800;
+        border:none;
+    }
+    .btn-secondary:hover{
+        background-color: rgb(255, 178, 85);
+        font-weight: 800;
+        border:none;
+    }
+    h3{
+        text-align: center;
+        color:rgb(255, 158, 40);
+    }
+</style>
+</body>
+</html>
